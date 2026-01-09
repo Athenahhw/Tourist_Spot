@@ -18,8 +18,6 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-// 主頁面 - 顯示多個貼文
 class InstagramFeed extends StatelessWidget {
   // 貼文資料
   final List<PostData> posts = [
@@ -46,10 +44,6 @@ class InstagramFeed extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-      ),
       body: ListView.builder(
         itemCount: posts.length,
         itemBuilder: (context, index) {
@@ -78,7 +72,6 @@ class PostData {
 class InstagramPost extends StatefulWidget {
   final PostData postData;
   InstagramPost({required this.postData});
-
   @override
   _InstagramPostState createState() => _InstagramPostState();
 }
@@ -134,12 +127,22 @@ class _InstagramPostState extends State<InstagramPost> {
             children: [
               SizedBox(width: 10),
               Expanded(
-                child: Text(
-                  widget.postData.username,
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                  ),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.location_on,
+                      size: 20,
+                      color: Colors.black,
+                    ),
+                    SizedBox(width: 8),  // 圖示和文字之間的間距
+                    Text(
+                      widget.postData.username,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -209,19 +212,33 @@ class _InstagramPostState extends State<InstagramPost> {
         ),
         // 推薦指數
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-          child: RichText(
-            text: TextSpan(
-              style: TextStyle(
-                fontSize: 14,
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 4), // 統一讓整個區塊遠離邊界
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(
+                Icons.approval,
+                size: 20,
                 color: Colors.black,
               ),
-              children: [
-                TextSpan(
-                  text: widget.postData.caption,
+              SizedBox(width: 8), // Icon 和文字中間的間距
+              Expanded(
+                child: RichText(
+                  text: TextSpan(
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.black,
+                      height: 1.5,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: widget.postData.caption,
+                      ),
+                    ],
+                  ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
         // 三個景點分隔線
