@@ -24,20 +24,20 @@ class InstagramFeed extends StatelessWidget {
   // 貼文資料
   final List<PostData> posts = [
     PostData(
-      username: '景點名稱',
-      imageUrl: '',//圖片直接寫死
+      username: '日月潭',
+      imageUrl: 'assets/image/pic1_lake.jpg',//圖片直接寫死
       videoUrl: 'https:',
       caption: '推薦指數：',
     ),
     PostData(
-      username: '景點名稱',
-      imageUrl: '',//圖片直接寫死
+      username: '合歡山武嶺',
+      imageUrl: 'assets/image/pic2_parking.jpg',//圖片直接寫死
       videoUrl: 'https:',
       caption: '推薦指數：',
     ),
     PostData(
-      username: '景點名稱',
-      imageUrl: '',//圖片直接寫死
+      username: '玉山',
+      imageUrl: 'assets/image/pic3_mountain.jpg',//圖片直接寫死
       videoUrl: 'https:',
       caption: '推薦指數：',
     ),
@@ -49,24 +49,6 @@ class InstagramFeed extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        title: Text(
-          'Instagram',
-          style: TextStyle(
-            color: Colors.black,
-            fontFamily: 'Cursive',
-            fontSize: 28,
-          ),
-        ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.favorite_border, color: Colors.black),
-            onPressed: () {},
-          ),
-          IconButton(
-            icon: Icon(Icons.send_outlined, color: Colors.black),
-            onPressed: () {},
-          ),
-        ],
       ),
       body: ListView.builder(
         itemCount: posts.length,
@@ -77,7 +59,6 @@ class InstagramFeed extends StatelessWidget {
     );
   }
 }
-
 // 貼文資料模型
 class PostData {
   final String username;
@@ -96,7 +77,6 @@ class PostData {
 // 單個貼文元件
 class InstagramPost extends StatefulWidget {
   final PostData postData;
-
   InstagramPost({required this.postData});
 
   @override
@@ -125,14 +105,12 @@ class _InstagramPostState extends State<InstagramPost> {
         }
       });
   }
-
   @override
   void dispose() {
     _pageController.dispose();
     _videoController?.dispose();
     super.dispose();
   }
-
   void _onPageChanged(int page) {
     setState(() {
       _currentPage = page;
@@ -144,24 +122,16 @@ class _InstagramPostState extends State<InstagramPost> {
       _videoController?.pause();
     }
   }
-
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // 頂部標題列
         Container(
           padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           child: Row(
             children: [
-              CircleAvatar(
-                radius: 16,
-                backgroundColor: Colors.grey[300],
-                child: Icon(Icons.person, size: 18, color: Colors.grey[600]),
-              ),
               SizedBox(width: 10),
               Expanded(
                 child: Text(
@@ -172,11 +142,9 @@ class _InstagramPostState extends State<InstagramPost> {
                   ),
                 ),
               ),
-              Icon(Icons.more_vert, size: 20),
             ],
           ),
         ),
-
         // 圖片/影片區域
         Container(
           width: screenWidth,
@@ -188,7 +156,7 @@ class _InstagramPostState extends State<InstagramPost> {
                 onPageChanged: _onPageChanged,
                 children: [
                   // 第一頁：圖片
-                  Image.network(
+                  Image.asset(
                     widget.postData.imageUrl,
                     fit: BoxFit.cover,
                     width: double.infinity,
@@ -221,7 +189,7 @@ class _InstagramPostState extends State<InstagramPost> {
                                 Icon(
                                   Icons.play_circle_outline,
                                   size: 64,
-                                  color: Colors.white.withOpacity(0.8),
+                                  color: Colors.white,
                                 ),
                             ],
                           ),
@@ -236,34 +204,10 @@ class _InstagramPostState extends State<InstagramPost> {
                   ),
                 ],
               ),
-
-              // 頁面指示器
-              Positioned(
-                top: 8,
-                left: 0,
-                right: 0,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: List.generate(
-                    2,
-                        (index) => Container(
-                      margin: EdgeInsets.symmetric(horizontal: 3),
-                      width: (screenWidth - 16) / 2 - 6,
-                      height: 2,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(1),
-                        color: _currentPage == index
-                            ? Colors.white
-                            : Colors.white.withOpacity(0.5),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
             ],
           ),
         ),
-        // 貼文內文
+        // 推薦指數
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
           child: RichText(
@@ -280,9 +224,7 @@ class _InstagramPostState extends State<InstagramPost> {
             ),
           ),
         ),
-
-
-        // 分隔線
+        // 三個景點分隔線
         SizedBox(height: 12),
         Divider(height: 1, thickness: 0.5),
       ],
